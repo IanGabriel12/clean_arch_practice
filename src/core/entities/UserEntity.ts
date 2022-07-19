@@ -1,4 +1,5 @@
 import PostEntity from "./PostEntity";
+import crypto from "crypto";
 
 type UserConstructData = {
   id?: string;
@@ -6,7 +7,7 @@ type UserConstructData = {
   password: string;
   name: string;
   email: string;
-}
+};
 
 export default class UserEntity {
   id: string;
@@ -15,7 +16,7 @@ export default class UserEntity {
   name: string;
   email: string;
 
-  constructor (data: UserConstructData) {
+  constructor(data: UserConstructData) {
     this.id = data.id || crypto.randomUUID();
     this.username = data.username;
     this.password = data.password;
