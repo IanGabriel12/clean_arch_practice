@@ -1,27 +1,30 @@
+
+import crypto from "crypto";
 import CommentEntity from "./CommentEntity";
 import UserEntity from "./UserEntity";
-import crypto from "crypto";
 
 type PostConstructData = {
   id?: string;
-  comments?: CommentEntity[];
-  writer: UserEntity;
   title: string;
   body: string;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
 export default class PostEntity {
   id: string;
   writer: UserEntity;
+  comments: CommentEntity[];
   title: string;
   body: string;
-  comments: CommentEntity[]; //CommentEntity
+  created_at: Date;
+  updated_at: Date | null;
 
   constructor(data: PostConstructData) {
     this.id = data.id || crypto.randomUUID();
-    this.writer = data.writer;
     this.title = data.title;
     this.body = data.body;
-    this.comments = data.comments || [];
+    this.created_at = data.created_at || new Date();
+    this.updated_at = data.updated_at || null;
   }
 }

@@ -23,4 +23,14 @@ export default class UserEntity {
     this.name = data.name;
     this.email = data.email;
   }
+
+  static createEmptyWithId(id: string) {
+    return new UserEntity({
+      id,
+      username: '',
+      password: '',
+      name: '',
+      email: ''
+    })
+  }
 }
