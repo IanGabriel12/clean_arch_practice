@@ -1,45 +1,31 @@
 import UserEntity from "../../src/core/entities/UserEntity";
 import UserRepository from "../../src/core/repositories/UserRepository";
+import db, { FakeDB } from "./FakeDatabase";
 
 export default class InMemoryUserRepository implements UserRepository {
-  db: UserEntity[];
+  db: FakeDB;
 
   constructor() {
-    this.db = [
-      new UserEntity({
-        id: "abc",
-        name: "Usuário teste",
-        username: "teste",
-        password: "123456",
-        email: "teste@email.com",
-      }),
-      new UserEntity({
-        id: "cbd",
-        name: "Julia Roberta",
-        username: "julia",
-        password: "123456",
-        email: "julia@email.com",
-      }),
-    ];
+    this.db = db;
   }
 
   async insertUser(user: UserEntity) {
-    this.db.push(user);
+    this.db.users.push(user);
     return user.id;
   }
 
   async updateUser(newUser: UserEntity) {
-    const index = this.db.findIndex((user) => (user.id = newUser.id));
+    const index = this.db.users.findIndex((user) => (user.id = newUser.id));
 
-    this.db[index].name = newUser.name;
-    this.db[index].username = newUser.username;
-    this.db[index].email = newUser.email;
+    this.db.users[index].name = newUser.name;
+    this.db.users[index].username = newUser.username;
+    this.db.users[index].email = newUser.email;
 
     return newUser.id;
   }
 
   async getUser(id: string) {
-    const user = this.db.find((user) => user.id === id);
+    const user = this.db.users.find((user) => user.id === id);
 
     if (!user) return null;
 
@@ -47,19 +33,19 @@ export default class InMemoryUserRepository implements UserRepository {
   }
 
   async listUsers() {
-    return this.db;
+    return this.db.users;
   }
 
   async deleteUser(id: string) {
-    const index = this.db.findIndex((user) => user.id === id);
+    const index = this.db.users.findIndex((user) => user.id === id);
 
-    this.db.splice(index, 1);
+    this.db.users.splice(index, 1);
 
     return true;
   }
 
   async getUserByUsername(username: string) {
-    const user = this.db.find((user) => user.username === username);
+    const user = this.db.users.find((user) => user.username === username);
 
     if (!user) return null;
 
@@ -67,7 +53,7 @@ export default class InMemoryUserRepository implements UserRepository {
   }
 
   async getUserByEmail(email: string) {
-    const user = this.db.find((user) => user.email === email);
+    const user = this.db.users.find((user) => user.email === email);
 
     if (!user) return null;
 
