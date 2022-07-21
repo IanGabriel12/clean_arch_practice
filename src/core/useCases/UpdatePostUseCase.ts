@@ -1,4 +1,4 @@
-import PostEntity from "../entities/PostEntity";
+import BasePostEntity, { PostDetailEntity } from "../entities/PostEntity";
 import PostRepository from "../repositories/PostRepository";
 
 type UpdatePostDTO = {
@@ -16,18 +16,20 @@ export default class UpdatePostUseCase {
   }
   
   async execute(postId: string, data: UpdatePostDTO) {
-    const post = await this.postRepo.getPost(postId);
+    const post = await this.postRepo.getPostDetail(postId);
 
     if(!post) throw new Error('Post não existe');
 
-    const newPost = new PostEntity({
+    const newPost = new PostDetailEntity({
+      id: postId,
       body: data.body || post.body,
       title: data.title || post.title,
-      updated_at: new Date()
+      updated_at: new Date(),
+      writer: post.writer
     });
 
     const updatedId = await this.postRepo.updatePost(newPost);
-    const updatedPost = await this.postRepo.getPost(updatedId);
+    const updatedPost = (await this.postRepo.getPost(updatedId))!;
 
     return updatedPost;
   }

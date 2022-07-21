@@ -1,4 +1,4 @@
-import PostEntity from "../entities/PostEntity";
+import PostEntity, { PostDetailEntity } from "../entities/PostEntity";
 import UserEntity from "../entities/UserEntity";
 import PostRepository from "../repositories/PostRepository";
 import UserRepository from "../repositories/UserRepository";
@@ -21,12 +21,19 @@ export default class CreatePostUseCase {
   }
 
   async execute(userId: string, data: CreatePostDTO) {
-    const post = new PostEntity({
+    const user = await this.userRepo.getUser(userId);
+
+    if(!user) {
+      throw new Error('Usuário não existe');
+    }
+
+    const post = new PostDetailEntity({
       title: data.title,
       body: data.body,
-    })
+      writer: user,
+    });
 
-    const postId = await this.postRepo.insertPost(post, userId);
+    const postId = await this.postRepo.insertPost(post);
 
     const newPost = ( await this.postRepo.getPost(postId) )!;
 
