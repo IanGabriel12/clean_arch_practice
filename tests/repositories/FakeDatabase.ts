@@ -1,9 +1,11 @@
+import CommentEntity from "../../src/core/entities/CommentEntity";
 import PostEntity, { PostDetailEntity } from "../../src/core/entities/PostEntity";
 import UserEntity from "../../src/core/entities/UserEntity";
 
 export type FakeDB = {
   users: UserEntity[];
   posts: PostDetailEntity[];
+  comments: CommentEntity[];
 }
 
 const users = [
@@ -50,9 +52,12 @@ const posts = [
   }),
 ]
 
+const comments: CommentEntity[] = []
+
 const db: FakeDB = {
   users,
   posts,
+  comments,
 };
 
 export default db;
