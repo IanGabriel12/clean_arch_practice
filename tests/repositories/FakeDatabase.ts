@@ -52,7 +52,35 @@ const posts = [
   }),
 ]
 
-const comments: CommentEntity[] = []
+const comments: CommentEntity[] = [
+  new CommentEntity({
+    id: "abc",
+    writer: users[0],
+    post: posts[0],
+    body: "Comentário 01"
+  }),
+
+  new CommentEntity({
+    id: "abcd",
+    writer: users[1],
+    post: posts[0],
+    body: "Comentário 02"
+  }),
+
+  new CommentEntity({
+    id: "abcde",
+    writer: users[0],
+    post: posts[1],
+    body: "Comentário 03"
+  }),
+
+  new CommentEntity({
+    id: "abcdef",
+    writer: users[1],
+    post: posts[1],
+    body: "Comentário 04"
+  }),
+]
 
 const db: FakeDB = {
   users,
