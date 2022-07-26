@@ -1,3 +1,4 @@
+import { UserNotFoundException } from "../../src/core/exceptions/UserExceptions";
 import CreatePostUseCase from "../../src/core/useCases/CreatePostUseCase";
 import InMemoryPostRepository from "../repositories/InMemoryPostRepository"
 import InMemoryUserRepository from "../repositories/InMemoryUserRepository";
@@ -20,7 +21,8 @@ describe('CreatePostUseCase', () => {
       }
     ).then(() => {
       done('This should not go right')
-    }).catch(() => {
+    }).catch((error) => {
+      expect(error instanceof UserNotFoundException).toBe(true);
       done();
     })
   })

@@ -1,3 +1,4 @@
+import { PostNotFoundException } from "../../src/core/exceptions/PostExceptions";
 import ListCommentsFromPostUseCase from "../../src/core/useCases/ListCommentsFromPostUseCase";
 import InMemoryCommentRepository from "../repositories/InMemoryCommentRepository";
 import InMemoryPostRepository from "../repositories/InMemoryPostRepository"
@@ -14,7 +15,10 @@ describe('ListCommentsFromPostUseCase', () => {
     useCase
       .execute("123")
       .then(() => done('This should not go right'))
-      .catch(() => done())
+      .catch((error) => {
+        expect(error instanceof PostNotFoundException).toBe(true)
+        done()
+      })
   });
 
   test('Should list the comments from a post', async () => {

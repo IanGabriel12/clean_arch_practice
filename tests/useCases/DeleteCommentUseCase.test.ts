@@ -1,3 +1,4 @@
+import { CommentNotFoundException } from "../../src/core/exceptions/CommentExceptions";
 import DeleteCommentUseCase from "../../src/core/useCases/DeleteCommentUseCase";
 import InMemoryCommentRepository from "../repositories/InMemoryCommentRepository"
 
@@ -9,7 +10,10 @@ describe('DeleteCommentUseCase', () => {
     useCase
     .execute('123')
     .then(() => done('This should not go right'))
-    .catch(() => done());
+    .catch((error) => {
+      expect(error instanceof CommentNotFoundException).toBe(true);
+      done()
+    });
   })
 
   test('Should delete a comment properly', async () => {

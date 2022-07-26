@@ -1,3 +1,4 @@
+import { PostNotFoundException } from "../../src/core/exceptions/PostExceptions";
 import UpdatePostUseCase from "../../src/core/useCases/UpdatePostUseCase";
 import InMemoryPostRepository from "../repositories/InMemoryPostRepository"
 
@@ -12,7 +13,8 @@ describe('UpdatePostUseCase', () => {
       title: 'oshi'
     }).then(() => {
       done('This should not go right')
-    }).catch(() => {
+    }).catch((error) => {
+      expect(error instanceof PostNotFoundException).toBe(true);
       done();
     });
   })

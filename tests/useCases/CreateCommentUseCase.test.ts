@@ -1,3 +1,5 @@
+import { PostNotFoundException } from "../../src/core/exceptions/PostExceptions";
+import { UserNotFoundException } from "../../src/core/exceptions/UserExceptions";
 import CreateCommentUseCase from "../../src/core/useCases/CreateCommentUseCase";
 import InMemoryCommentRepository from "../repositories/InMemoryCommentRepository"
 import InMemoryPostRepository from "../repositories/InMemoryPostRepository";
@@ -21,7 +23,8 @@ describe('CreateCommentUseCase', () => {
       "Comentário teste"
     ).then(() => {
       done('This should not go right')
-    }).catch(() => {
+    }).catch((error) => {
+      expect(error instanceof UserNotFoundException).toBe(true);
       done();
     })
   })
@@ -43,7 +46,8 @@ describe('CreateCommentUseCase', () => {
       "Comentário teste"
     ).then(() => {
       done('This should not go right')
-    }).catch(() => {
+    }).catch((error) => {
+      expect(error instanceof PostNotFoundException).toBe(true);
       done();
     });
   })

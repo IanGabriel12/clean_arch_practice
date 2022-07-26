@@ -1,3 +1,4 @@
+import { EmailNotAvailableException, UsernameNotAvailableException, UserNotFoundException } from "../../src/core/exceptions/UserExceptions";
 import UpdateUserUseCase from "../../src/core/useCases/UpdateUserUseCase";
 import InMemoryUserRepository from "../repositories/InMemoryUserRepository";
 
@@ -15,7 +16,8 @@ describe("UpdateUserUseCase", () => {
       .then(() => {
         done("This should not go right");
       })
-      .catch(() => {
+      .catch((error) => {
+        expect(error instanceof UserNotFoundException).toBe(true);
         done();
       });
   });
@@ -33,7 +35,9 @@ describe("UpdateUserUseCase", () => {
       .then(() => {
         done("This should not go right");
       })
-      .catch(() => {
+      .catch((error) => {
+        expect(error instanceof EmailNotAvailableException).toBe(true);
+
         done();
       });
   });
@@ -51,7 +55,9 @@ describe("UpdateUserUseCase", () => {
       .then(() => {
         done("This should not go right");
       })
-      .catch(() => {
+      .catch((error) => {
+        expect(error instanceof UsernameNotAvailableException).toBe(true);
+
         done();
       });
   });

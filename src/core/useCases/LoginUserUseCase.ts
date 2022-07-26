@@ -24,7 +24,7 @@ export default class LoginUserUseCase {
     if(!user) throw new IncorrectCredentialsException('Wrong username or password provided');
 
     const isPasswordCorrect = this.encrypter.compare(password, user.password);
-    if(!isPasswordCorrect) throw new Error('Wrong username or password provided');
+    if(!isPasswordCorrect) throw new IncorrectCredentialsException('Wrong username or password provided');
 
     return {
       token: this.tokenProvider.createTokenFrom(user.id)

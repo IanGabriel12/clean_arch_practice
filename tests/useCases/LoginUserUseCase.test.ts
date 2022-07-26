@@ -1,3 +1,4 @@
+import { IncorrectCredentialsException } from "../../src/core/exceptions/UserExceptions";
 import LoginUserUseCase from "../../src/core/useCases/LoginUserUseCase";
 import InMemoryUserRepository from "../repositories/InMemoryUserRepository"
 import FakeEncrypter from "../utils/FakeEncrypter";
@@ -16,7 +17,8 @@ describe('LoginUserUseCase', () => {
 
     useCase.execute("etest", "123456").then(() => {
       done("This should not go right")
-    }).catch(() => {
+    }).catch((error) => {
+      expect(error instanceof IncorrectCredentialsException).toBe(true);
       done();
     })
   });
@@ -31,7 +33,8 @@ describe('LoginUserUseCase', () => {
 
     useCase.execute("teste", "1234567").then(() => {
       done("This should not go right")
-    }).catch(() => {
+    }).catch((error) => {
+      expect(error instanceof IncorrectCredentialsException).toBe(true);
       done();
     })
   });

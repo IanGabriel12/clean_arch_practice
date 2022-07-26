@@ -1,3 +1,4 @@
+import { PostNotFoundException } from "../../src/core/exceptions/PostExceptions";
 import DeletePostUseCase from "../../src/core/useCases/DeletePostUseCase";
 import InMemoryPostRepository from "../repositories/InMemoryPostRepository"
 
@@ -8,7 +9,8 @@ describe('DeletePostUseCase', () => {
 
     useCase.execute('123').then(() => {
       done('This should not go right')
-    }).catch(() => {
+    }).catch((error) => {
+      expect(error instanceof PostNotFoundException).toBe(true);
       done();
     })
   })

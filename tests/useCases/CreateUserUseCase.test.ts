@@ -1,3 +1,4 @@
+import { EmailNotAvailableException, UsernameNotAvailableException } from "../../src/core/exceptions/UserExceptions";
 import CreateUserUseCase from "../../src/core/useCases/CreateUserUseCase";
 import InMemoryUserRepository from "../repositories/InMemoryUserRepository";
 import FakeEncrypter from "../utils/FakeEncrypter";
@@ -19,7 +20,8 @@ describe("CreateUserUseCase", () => {
       .then(() => {
         done("This should not go right");
       })
-      .catch(() => {
+      .catch((error) => {
+        expect(error instanceof UsernameNotAvailableException).toBe(true);
         done();
       });
   });
@@ -38,7 +40,9 @@ describe("CreateUserUseCase", () => {
       .then(() => {
         done("This should not go right");
       })
-      .catch(() => {
+      .catch((error) => {
+        expect(error instanceof EmailNotAvailableException).toBe(true);
+
         done();
       });
   });

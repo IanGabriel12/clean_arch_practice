@@ -1,3 +1,4 @@
+import { UserNotFoundException } from "../../src/core/exceptions/UserExceptions";
 import GetUserUseCase from "../../src/core/useCases/GetUserUseCase";
 import InMemoryUserRepository from "../repositories/InMemoryUserRepository";
 
@@ -11,7 +12,8 @@ describe("GetUserUseCase", () => {
       .then(() => {
         done("This should not go right");
       })
-      .catch(() => {
+      .catch((error) => {
+        expect(error instanceof UserNotFoundException).toBe(true);
         done();
       });
   });

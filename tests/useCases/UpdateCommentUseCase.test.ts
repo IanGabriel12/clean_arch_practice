@@ -1,3 +1,4 @@
+import { CommentNotFoundException } from "../../src/core/exceptions/CommentExceptions";
 import UpdateCommentUseCase from "../../src/core/useCases/UpdateCommentUseCase";
 import InMemoryCommentRepository from "../repositories/InMemoryCommentRepository"
 
@@ -11,7 +12,8 @@ describe('UpdateCommentUseCase', () => {
       "Comentário editado"
     ).then(() => {
       done('This should not go right')
-    }).catch(() => {
+    }).catch((error) => {
+      expect(error instanceof CommentNotFoundException).toBe(true);
       done();
     })
   });

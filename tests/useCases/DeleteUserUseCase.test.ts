@@ -1,3 +1,4 @@
+import { UserNotFoundException } from "../../src/core/exceptions/UserExceptions";
 import DeleteUserUseCase from "../../src/core/useCases/DeleteUserUseCase";
 import InMemoryUserRepository from "../repositories/InMemoryUserRepository";
 
@@ -11,7 +12,8 @@ describe("DeleteUserUseCase", () => {
       .then(() => {
         done("This should not go right");
       })
-      .catch(() => {
+      .catch((error) => {
+        expect(error instanceof UserNotFoundException).toBe(true)
         done();
       });
   });
