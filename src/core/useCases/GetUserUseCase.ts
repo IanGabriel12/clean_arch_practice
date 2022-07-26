@@ -1,3 +1,4 @@
+import { UserNotFoundException } from "../exceptions/UserExceptions";
 import UserRepository from "../repositories/UserRepository";
 
 export default class GetUserUseCase {
@@ -14,7 +15,7 @@ export default class GetUserUseCase {
     const user = await this.userRepo.getUser(id);
 
     if(!user) {
-      throw new Error('Usuário não existe');
+      throw new UserNotFoundException('This user does not exist');
     }
 
     return user;

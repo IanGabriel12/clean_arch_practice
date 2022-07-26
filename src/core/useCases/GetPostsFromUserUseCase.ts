@@ -1,3 +1,4 @@
+import { UserNotFoundException } from "../exceptions/UserExceptions";
 import PostRepository from "../repositories/PostRepository";
 import UserRepository from "../repositories/UserRepository";
 
@@ -16,7 +17,7 @@ export default class GetPostsFromUserUseCase {
   async execute(userId: string) {
     const user = await this.userRepo.getUser(userId);
 
-    if(!user) throw new Error('Usuário não existe');
+    if(!user) throw new UserNotFoundException('User does not exist');
 
     const posts = await this.postRepo.listPostsFromUser(userId);
 

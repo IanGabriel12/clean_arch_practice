@@ -1,5 +1,6 @@
 import { getEffectiveConstraintOfTypeParameter } from "typescript";
 import UserEntity from "../entities/UserEntity";
+import { EmailNotAvailableException, UsernameNotAvailableException } from "../exceptions/UserExceptions";
 import UserRepository from "../repositories/UserRepository";
 import Encrypter from "../utils/Encrypter";
 
@@ -27,13 +28,13 @@ export default class CreateUserUseCase {
     const userWithSameUsername = await this.userRepo.getUserByUsername(data.username);
 
     if(userWithSameUsername) {
-      throw new Error('Nome de usuário já está em uso');
+      throw new UsernameNotAvailableException('Username provided is already used');
     }
 
     const userWithSameEmail = await this.userRepo.getUserByEmail(data.email);
 
     if(userWithSameEmail) {
-      throw new Error('Email já está em uso');
+      throw new EmailNotAvailableException('Email provided is already used');
     }
 
     const encryptedPassword = this.encrypter.encryptString(data.password);

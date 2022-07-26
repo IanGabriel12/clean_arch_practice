@@ -1,4 +1,6 @@
 import CommentEntity from "../entities/CommentEntity";
+import { PostNotFoundException } from "../exceptions/PostExceptions";
+import { UserNotFoundException } from "../exceptions/UserExceptions";
 import CommentRepository from "../repositories/CommentRepository";
 import PostRepository from "../repositories/PostRepository";
 import UserRepository from "../repositories/UserRepository";
@@ -21,11 +23,11 @@ export default class CreateCommentUseCase {
   async execute(userId: string, postId: string, body: string) {
     const user = await this.userRepo.getUser(userId);
 
-    if(!user) throw new Error('Usuário não existe')
+    if(!user) throw new UserNotFoundException('User does not exist')
 
     const post = await this.postRepo.getPost(postId);
 
-    if(!post) throw new Error('Post não existe');
+    if(!post) throw new PostNotFoundException('Post does not exist');
 
     const comment = new CommentEntity({
       writer: user,

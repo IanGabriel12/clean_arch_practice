@@ -1,4 +1,5 @@
 import UserEntity from "../entities/UserEntity";
+import { EmailNotAvailableException, UsernameNotAvailableException, UserNotFoundException } from "../exceptions/UserExceptions";
 import UserRepository from "../repositories/UserRepository";
 
 type UpdateUserDTO = {
@@ -18,7 +19,7 @@ export default class UpdateUserUseCase {
     const currentUser = await this.userRepo.getUser(id);
 
     if (!currentUser) {
-      throw new Error("Usuário não existe");
+      throw new UserNotFoundException("This user does not exist");
     }
 
     if (data.username) {
@@ -27,7 +28,7 @@ export default class UpdateUserUseCase {
       );
 
       if (userWithSameUsername && userWithSameUsername.id != id) {
-        throw new Error("Nome de usuário não está disponível");
+        throw new UsernameNotAvailableException("This username is already used");
       }
     }
 
@@ -35,7 +36,7 @@ export default class UpdateUserUseCase {
       const userWithSameEmail = await this.userRepo.getUserByEmail(data.email);
 
       if (userWithSameEmail && userWithSameEmail.id != id) {
-        throw new Error("Nome de usuário não está disponível");
+        throw new EmailNotAvailableException("This email is already used");
       }
     }
 

@@ -1,5 +1,6 @@
 import PostEntity, { PostDetailEntity } from "../entities/PostEntity";
 import UserEntity from "../entities/UserEntity";
+import { UserNotFoundException } from "../exceptions/UserExceptions";
 import PostRepository from "../repositories/PostRepository";
 import UserRepository from "../repositories/UserRepository";
 
@@ -24,7 +25,7 @@ export default class CreatePostUseCase {
     const user = await this.userRepo.getUser(userId);
 
     if(!user) {
-      throw new Error('Usuário não existe');
+      throw new UserNotFoundException('This user does not exist');
     }
 
     const post = new PostDetailEntity({

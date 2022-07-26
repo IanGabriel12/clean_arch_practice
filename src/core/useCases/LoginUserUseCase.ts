@@ -1,3 +1,4 @@
+import { IncorrectCredentialsException } from "../exceptions/UserExceptions";
 import UserRepository from "../repositories/UserRepository";
 import Encrypter from "../utils/Encrypter";
 import TokenProvider from "../utils/TokenProvider";
@@ -20,10 +21,10 @@ export default class LoginUserUseCase {
   async execute(username: string, password: string) {
     const user = await this.userRepo.getUserByUsername(username);
 
-    if(!user) throw new Error('Usuário ou senha incorretos');
+    if(!user) throw new IncorrectCredentialsException('Wrong username or password provided');
 
     const isPasswordCorrect = this.encrypter.compare(password, user.password);
-    if(!isPasswordCorrect) throw new Error('Usuário ou senha incorretos');
+    if(!isPasswordCorrect) throw new Error('Wrong username or password provided');
 
     return {
       token: this.tokenProvider.createTokenFrom(user.id)

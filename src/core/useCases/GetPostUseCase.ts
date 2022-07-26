@@ -1,3 +1,4 @@
+import { PostNotFoundException } from "../exceptions/PostExceptions";
 import PostRepository from "../repositories/PostRepository";
 
 export default class GetPostUseCase {
@@ -11,7 +12,7 @@ export default class GetPostUseCase {
   async execute(postId: string) {
     const post = await this.postRepo.getPostDetail(postId);
 
-    if(!post) throw new Error('Este post não existe');
+    if(!post) throw new PostNotFoundException('This post does not exist');
 
     return post;
   }

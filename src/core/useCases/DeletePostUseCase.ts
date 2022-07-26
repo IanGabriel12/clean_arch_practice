@@ -1,3 +1,4 @@
+import { PostNotFoundException } from "../exceptions/PostExceptions";
 import PostRepository from "../repositories/PostRepository"
 
 export default class DeletePostUseCase {
@@ -11,7 +12,7 @@ export default class DeletePostUseCase {
   async execute(postId: string) {
     const post = await this.postRepo.getPost(postId);
 
-    if(!post) throw new Error('Post não existe');
+    if(!post) throw new PostNotFoundException('Post does not exist');
 
     const deleted = await this.postRepo.deletePost(postId);
 

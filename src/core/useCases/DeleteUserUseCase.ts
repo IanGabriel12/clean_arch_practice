@@ -1,3 +1,4 @@
+import { UserNotFoundException } from "../exceptions/UserExceptions";
 import UserRepository from "../repositories/UserRepository";
 
 export default class DeleteUserUseCase {
@@ -13,7 +14,7 @@ export default class DeleteUserUseCase {
     const user = await this.userRepo.getUser(id);
 
     if(!user) {
-      throw new Error('Este usuário não existe');
+      throw new UserNotFoundException('This user does not exist');
     }
 
     const deleted = this.userRepo.deleteUser(id);
